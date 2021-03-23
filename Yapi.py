@@ -12,7 +12,6 @@ LOGIN = os.getenv("LOGIN")
 PWD = os.getenv("PWD")
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-TOKEN = os.getenv("TOKEN")
 
 
 class Yapi:
@@ -30,25 +29,28 @@ class Yapi:
         if pwd != '':
             self._PWD = pwd
 
+        print("Yapi instance create")
+
     async def init(self, login: str = '', pwd: str = ''):
         try:
             if login != '' and pwd != '':
-                Client.from_credentials(login, pwd, report_new_fields=False)
                 self.client = Client.from_credentials(login, pwd, report_new_fields=False)
+                return True
 
             else:
                 if pwd == '' and login != '':
                     self.client = Client.from_token(login, report_new_fields=False)
+                    return True
                 else:
                     self.client = Client.from_credentials(LOGIN, PWD, report_new_fields=False)
-
-            return True
+                    return True
 
         except Unauthorized:
             print("Unauthorized")
             return False
 
         except YandexMusicError:
+            error = YandexMusicError
             print("YandexMusicError")
             return False
 

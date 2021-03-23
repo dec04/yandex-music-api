@@ -55,7 +55,8 @@ async def login(ctx, _login_or_token: str = '', _pwd: str = ''):
         await ctx.send(f'{ctx.message.author.mention}, DEBUG login')
         print("Success")
 
-    if await yapi.init(_login_or_token, _pwd):
+    success = await yapi.init(_login_or_token, _pwd)
+    if success:
         await ctx.send(f'{ctx.message.author.mention}, Login success :white_check_mark:')
         print("Success")
     else:
