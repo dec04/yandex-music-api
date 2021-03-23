@@ -1,3 +1,4 @@
+import os
 from asyncio import sleep
 from pathlib import Path
 
@@ -12,6 +13,7 @@ env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 PREFERRED_QUALITY = '192'
+DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
 YDL_OPTIONS = {
     'format': 'bestaudio/best',
@@ -261,4 +263,4 @@ async def play(self, ctx, *, query):
 
 
 if __name__ == '__main__':
-    bot.run('ODIzNDcyNzc4OTgzMzc0ODg4.YFhUyQ.vO59Vy1HFMQy0_fd3kq9LMZp0vY')
+    bot.run(DISCORD_BOT_TOKEN)
