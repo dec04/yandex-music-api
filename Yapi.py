@@ -3,7 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from yandex_music import Client
-from yandex_music.exceptions import YandexMusicError, Unauthorized
+from yandex_music.exceptions import Unauthorized, YandexMusicError
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -32,19 +32,22 @@ class Yapi:
 
     async def init(self, login: str = '', pwd: str = ''):
         try:
-            if pwd == '':
-                self.client = Client.fromToken(login, report_new_fields=False)
+            if login != '' and pwd != '':
+                Client.from_credentials(login, pwd, report_new_fields=False)
+                self.client = Client.from_credentials(login, pwd, report_new_fields=False)
+
             else:
-                if login != '' and pwd != '':
-                    self.client = Client.fromCredentials(login, pwd, report_new_fields=False)
+                if pwd == '' and login != '':
+                    self.client = Client.from_token(login, report_new_fields=False)
                 else:
-                    self.client = Client.fromCredentials(LOGIN, PWD, report_new_fields=False)
+                    self.client = Client.from_credentials(LOGIN, PWD, report_new_fields=False)
 
             return True
 
         except Unauthorized:
             print("Unauthorized")
             return False
+
         except YandexMusicError:
             print("YandexMusicError")
             return False

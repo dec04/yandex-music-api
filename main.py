@@ -31,7 +31,6 @@ FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconne
 bot = commands.Bot(command_prefix='!!')
 
 yapi = Yapi()
-token = ''  # music.yandex.ru Token
 vc = None  # voice client
 
 
@@ -114,7 +113,6 @@ async def pl(ctx, start_from: int = 0, end_on: int = -1):
 @bot.command()
 async def pf(ctx, start_from: int = 0, end_on: int = -1, stream: bool = "True"):
     global vc
-    global token
     global yapi
 
     if yapi.client is not None:
@@ -131,7 +129,6 @@ async def pf(ctx, start_from: int = 0, end_on: int = -1, stream: bool = "True"):
                 # Now you are trying to connect to a None channel.
                 print("Connect")
 
-        token = yapi.client.token
         playlist = yapi.get_user_likes_tracks()
         short_tracks = playlist.tracks
 
