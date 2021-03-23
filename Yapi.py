@@ -21,7 +21,6 @@ class Yapi:
     _PWD = None
 
     def __init__(self, token: str = '', login: str = '', pwd: str = ''):
-        # self.client = Client.fromCredentials(LOGIN, PWD, report_new_fields=False)
         if token != '':
             self._TOKEN = token
         if login != '':
@@ -50,7 +49,6 @@ class Yapi:
             return False
 
         except YandexMusicError:
-            error = YandexMusicError
             print("YandexMusicError")
             return False
 
