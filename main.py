@@ -69,7 +69,7 @@ async def fav_count(ctx):
     await ctx.send(len(playlist))
 
 
-@bot.command()
+@bot.command(aliases=['playlist', 'list'])
 async def pl(ctx, start_from: int = 0, end_on: int = -1):
     global yapi
 
@@ -109,8 +109,17 @@ async def pl(ctx, start_from: int = 0, end_on: int = -1):
             f' - :loudspeaker: "**!!login token**"')
 
 
-@bot.command()
+@bot.command(aliases=['play fav', 'play favorite'])
 async def pf(ctx, start_from: int = 0, end_on: int = -1, stream: bool = "True"):
+    """
+    Play favourite playlist from music.yandex.ru
+    To use it need `login` function
+
+    :param ctx: Discord context
+    :param start_from: Start from song position
+    :param end_on: End to song position
+    :param stream: True - use stream function for play music. False - use local file
+    """
     global vc
     global yapi
 
@@ -204,15 +213,30 @@ async def pf(ctx, start_from: int = 0, end_on: int = -1, stream: bool = "True"):
 
 
 async def play_download(_vc, _file_path):
+    """
+    Play mp3 file local from OS
+
+    :param _vc: Voice controller
+    :param _file_path: Path to mp3 file
+    """
+
     _vc.play(discord.FFmpegPCMAudio(source=_file_path))
 
     while _vc.is_playing():
+        # if music play wait 1 sec
         await sleep(1)
     if not _vc.is_paused():
         print("Next song")
 
 
 async def play_stream(_vc, _direct_link):
+    """
+    Play mp3 file from URL
+
+    :param _vc: Voice controller
+    :param _direct_link: Direct url to mp3 file
+    """
+
     with YoutubeDL(YDL_OPTIONS) as ydl:
         info = ydl.extract_info(_direct_link, download=False)
 
