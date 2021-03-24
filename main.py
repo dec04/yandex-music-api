@@ -30,12 +30,19 @@ FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconne
 
 bot = commands.Bot(command_prefix='!!')
 
-yapi = Yapi()
-vc = None  # voice client
+yapi = Yapi()  # yapi client
+vc = None  # discord.VoiceClient
 
 
 @bot.event
 async def on_command_error(ctx, error):
+    """
+    Error handler
+
+    :param ctx: Discord context
+    :param error: Error object
+    """
+
     if isinstance(error, discord.ext.commands.errors.PrivateMessageOnly):
         await ctx.send(
             f'{ctx.message.author.mention}, \n'
@@ -49,6 +56,14 @@ async def on_command_error(ctx, error):
 @bot.command(aliases=['lgn', 'l'])
 @commands.dm_only()
 async def login(ctx, _login_or_token: str = '', _pwd: str = ''):
+    """
+    Login to music.yandex.ru Client from credentials or token
+
+    :param ctx: Discord context
+    :param _login_or_token: Login or token string
+    :param _pwd: Password string
+    """
+
     global yapi
 
     if _pwd == '' and _login_or_token == '':
@@ -64,13 +79,28 @@ async def login(ctx, _login_or_token: str = '', _pwd: str = ''):
 
 @bot.command()
 async def fav_count(ctx):
+    """
+    Playlist song count
+
+    :param ctx: Discord context
+    """
+
     global yapi
+
     playlist = yapi.get_user_likes_tracks()
     await ctx.send(len(playlist))
 
 
 @bot.command(aliases=['playlist', 'list'])
 async def pl(ctx, start_from: int = 0, end_on: int = -1):
+    """
+    Return favourite playlist file names
+
+    :param ctx: Discord context
+    :param start_from: Start playlist position
+    :param end_on: End playlist position
+    """
+
     global yapi
 
     if yapi.client is not None:
@@ -116,10 +146,11 @@ async def pf(ctx, start_from: int = 0, end_on: int = -1, stream: bool = "True"):
     To use it need `login` function
 
     :param ctx: Discord context
-    :param start_from: Start from song position
-    :param end_on: End to song position
+    :param start_from: Start playlist position
+    :param end_on: End playlist position
     :param stream: True - use stream function for play music. False - use local file
     """
+
     global vc
     global yapi
 
@@ -248,6 +279,19 @@ async def play_stream(_vc, _direct_link):
             await sleep(1)
         if not _vc.is_paused():
             print("Next song")
+
+
+@bot.command()
+async def volume(ctx, position: float = 0.5):
+    """
+    Set volume to VolumeClient
+
+    :param: position: Volume position
+    """
+    global vc
+
+    ctx.voice_client.source = discord.PCMVolumeTransformer(ctx.voice_client.source, position)
+    await ctx.send(f'{ctx.message.author.mention}, Volume set to {position}')
 
 
 @bot.command()
