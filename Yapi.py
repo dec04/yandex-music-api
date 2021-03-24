@@ -33,16 +33,19 @@ class Yapi:
     async def init(self, login: str = '', pwd: str = ''):
         try:
             if login != '' and pwd != '':
+                # Old authorization method, report_new_fields no need to new auth
                 # self.client = Client.from_credentials(login, pwd, report_new_fields=False)
                 self.client = Client.from_credentials(login, pwd)
                 return True
 
             else:
                 if pwd == '' and login != '':
+                    # Old authorization method, report_new_fields no need to new auth
                     # self.client = Client.from_token(login, report_new_fields=False)
                     self.client = Client.from_token(login)
                     return True
                 else:
+                    # Old authorization method, report_new_fields no need to new auth
                     # self.client = Client.from_credentials(LOGIN, PWD, report_new_fields=False)
                     self.client = Client.from_credentials(LOGIN, PWD)
                     return True
