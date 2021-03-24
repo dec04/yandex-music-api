@@ -31,6 +31,14 @@ class Yapi:
         print("Yapi instance create")
 
     async def init(self, login: str = '', pwd: str = ''):
+        """
+        Start point for get music.yandex.ru client
+
+        :param login: Username or token string
+        :param pwd: Password string
+        :return: yandex_music.Client
+        """
+
         try:
             if login != '' and pwd != '':
                 # Old authorization method, report_new_fields no need to new auth
@@ -59,5 +67,11 @@ class Yapi:
             return False
 
     def get_user_likes_tracks(self):
+        """
+        Get favourite playlist from yandex music
+
+        :return: yandex_music.TrackList object
+        """
+        
         tracks = self.client.users_likes_tracks()
         return tracks
