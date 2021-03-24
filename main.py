@@ -245,11 +245,12 @@ async def stop(ctx):
 
 @bot.command()
 async def terminate(ctx):
+    await ctx.send(f'{ctx.message.author.mention}, Warning! Terminating bot')
     exit(0)
 
 
 @commands.command()
-async def play(self, ctx, *, query):
+async def play(ctx, *, query):
     """Plays a file from the local filesystem"""
 
     source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(query))
