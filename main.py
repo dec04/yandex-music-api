@@ -88,7 +88,7 @@ async def fav_count(ctx):
     global yapi
 
     playlist = yapi.get_user_likes_tracks()
-    await ctx.send(len(playlist))
+    await ctx.send(f'{ctx.message.author.mention}, {len(playlist)}')
 
 
 @bot.command(aliases=['playlist', 'list'])
@@ -309,6 +309,12 @@ async def leave(ctx):
 async def stop(ctx):
     if ctx.voice_client is not None:
         ctx.voice_client.pause()
+
+
+@bot.command()
+async def next_song(ctx):
+    ctx.voice_client.stop()
+    await ctx.send(f'{ctx.message.author.mention}, Next song required')
 
 
 @commands.command()
