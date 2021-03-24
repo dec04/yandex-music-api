@@ -240,13 +240,7 @@ async def leave(ctx):
 @bot.command()
 async def stop(ctx):
     if ctx.voice_client is not None:
-        ctx.voice_client.stop()
-
-
-@bot.command()
-async def terminate(ctx):
-    await ctx.send(f'{ctx.message.author.mention}, Warning! Terminating bot')
-    exit(0)
+        ctx.voice_client.pause()
 
 
 @commands.command()
